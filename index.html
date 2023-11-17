@@ -30,7 +30,9 @@
       <span style="width: 250px;display: inline-block;">так работает</span>
       <button style="font-size: 34px;margin-bottom: 20px;" onclick="getkpresTest(event)">getkpresTest jquery</button><br>
       <span style="width: 250px;display: inline-block;">так НЕ работает</span>
-      <button style="font-size: 34px;" onclick="getkpresTest_fetch(event)">getkpresTest fetch</button>
+      <button style="font-size: 34px;margin-bottom: 20px;" onclick="getkpresTest_fetch(event)">getkpresTest fetch</button><br>
+      <span style="width: 250px;display: inline-block;"></span>
+      <button style="font-size: 34px;" onclick="getkpresTest_hand(event)">fetch руками</button><br>
       <hr>
       <div>результат:</div>
       <pre class="rez"></pre>
@@ -59,6 +61,14 @@
     apiGetKPRez_fetch(json, (err, data) => {
       console.log('apiGetKPRez cbAlways err:', err, " data:", data);
       showRez('getkpresTest (fetch)', err, data)
+    });
+  }
+  const getkpresTest_hand = (e) => {
+    rez$.innerHTML = ''
+    debugger
+    apiGetKPRez_hand((err, data) => {
+      console.log('apiGetKPRez cbAlways err:', err, " data:", data);
+      showRez('getkpresTest (запрос руками)', err, data)
     });
   }
   
@@ -108,6 +118,39 @@ ${JSON.stringify(data, null, 2)}
       if (rezultCallback) rezultCallback(ex, false)
     }
   }  
+  const apiGetKPRez_hand = function (rezultCallback) {
+    try {
+      postBody = "cid=63e539b698925409b47ac28b&kpIndex=0&spIdList%5B%5D=e3be98eb-9550-49c8-b216-7a9524c52b66&spIdList%5B%5D=3abb4888-996f-475f-85db-81c73366e254&circle=1&haveStageStart=true&stageStart=1&haveKpStart=true"
+      fetch(_GetKPRezUrl, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          'Sec-Fetch-Mode': 'cors',
+          'Sec-Fetch-Site': 'cross-site',
+          'Accept': 'application/json',
+        },
+        body: postBody,
+      })
+        .then(function (response) {
+          return response.json()
+        }).then(function (json) {
+          if (rezultCallback) rezultCallback(false, json)
+        }).catch(function (ex) {
+          if (rezultCallback) rezultCallback(ex, false)
+        });
+    } catch (ex) {
+      if (rezultCallback) rezultCallback(ex, false)
+    }
+  }  
+
+/*
+cid=63e539b698925409b47ac28b&kpIndex=0&spIdList%5B%5D=e3be98eb-9550-49c8-b216-7a9524c52b66&spIdList%5B%5D=3abb4888-996f-475f-85db-81c73366e254&circle=1&haveStageStart=true&stageStart=1&haveKpStart=true
+
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+'Sec-Fetch-Mode': 'cors'
+'Sec-Fetch-Site': 'cross-site'
+*/
+
   </script>
   
 </body>
