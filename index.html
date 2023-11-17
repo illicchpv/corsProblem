@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,150 +9,187 @@
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
   <!--<script src="https://static.tildacdn.com/js/jquery-1.10.2.min.js" defer></script>-->
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js" defer></script>  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js" defer></script>
 
 </head>
+
 <body>
   <!-- 
-
-    tilda         https://wetrace.ru/corsproblem   
     github        https://github.com/illicchpv/corsProblem
     github pages  https://illicchpv.github.io/corsProblem/
+    tilda         https://wetrace.ru/corsproblem   
+    tilda         https://wetrace.ru/timing_rallyraid?cid=63e539b698925409b47ac28b
   -->
-
   <style>
-    .rez{
+    .rez {
       font-size: 16px;
+    }
+    span{
+      width: 280px;display: inline-block;
+    }
+    button{
+      font-size: 34px;margin-bottom: 20px;
+      width: 500px;
+      cursor: pointer;
+    }
+    button.last{
+      margin-bottom: 0px;
+    }
+    i{
+      color: red;
+    }
+    .green{
+      color: green;
     }
   </style>
   <h1>Hello cors</h1>
   <hr>
-    <div style="font-size: 34px;">
-      <span style="width: 250px;display: inline-block;">так работает</span>
-      <button style="font-size: 34px;margin-bottom: 20px;" onclick="getkpresTest(event)">getkpresTest jquery</button><br>
-      <span style="width: 250px;display: inline-block;">так НЕ работает</span>
-      <button style="font-size: 34px;margin-bottom: 20px;" onclick="getkpresTest_fetch(event)">getkpresTest fetch</button><br>
-      <span style="width: 250px;display: inline-block;"></span>
-      <button style="font-size: 34px;" onclick="getkpresTest_hand(event)">fetch руками</button><br>
-      <hr>
-      <div>результат:</div>
-      <pre class="rez"></pre>
-    </div>
-  
+  <div style="font-size: 34px;">
+    <span class="green">так работает</span>
+    <button onclick="getkpresTest(event)">getkpresTest <i>jquery</i> </button><br>
+    <span>так НЕ работает</span>
+    <button onclick="getkpresTest_fetch(event)">getkpresTest <i>fetch</i></button><br>
+    <span class="green">так fetch работает!</span>
+    <button class="last" onclick="getkpresTest_hand(event)">getkpresTest <i>fetch encodeURI</i> </button><br>
+    <hr>
+    <div>результат:</div>
+    <pre class="rez"></pre>
+  </div>
+
   <script>
-      
-  const _GetKPRezUrl = 'https://aclive.ru/SpeedControl/GetKPRez/';
-  let json = '{"cid":"63e539b698925409b47ac28b","kpIndex":"0","spIdList":["e3be98eb-9550-49c8-b216-7a9524c52b66","3abb4888-996f-475f-85db-81c73366e254"],"circle":1,"haveStageStart":true,"stageStart":"1","haveKpStart":true}'
-  let obj = JSON.parse(json)
-  const rez$ = document.querySelector('.rez')
-  
-  // https://wetrace.ru/timing_rallyraid?cid=63e539b698925409b47ac28b
-  
-  const getkpresTest = (e) => {
-    rez$.innerHTML = ''
-    debugger
-    apiGetKPRez(json, (err, data) => {
-      console.log('apiGetKPRez cbAlways err:', err, " data:", data);
-      showRez('getkpresTes (jquery)',  err, data)
-    });
-  }
-  const getkpresTest_fetch = (e) => {
-    rez$.innerHTML = ''
-    debugger
-    apiGetKPRez_fetch(json, (err, data) => {
-      console.log('apiGetKPRez cbAlways err:', err, " data:", data);
-      showRez('getkpresTest (fetch)', err, data)
-    });
-  }
-  const getkpresTest_hand = (e) => {
-    rez$.innerHTML = ''
-    debugger
-    apiGetKPRez_hand((err, data) => {
-      console.log('apiGetKPRez cbAlways err:', err, " data:", data);
-      showRez('getkpresTest (запрос руками)', err, data)
-    });
-  }
-  
-  const showRez = (name, err, data) => {
-    rez$.innerHTML = `
+
+    const _GetKPRezUrl = 'https://aclive.ru/SpeedControl/GetKPRez/';
+    let json = '{"cid":"63e539b698925409b47ac28b","kpIndex":"0","spIdList":["e3be98eb-9550-49c8-b216-7a9524c52b66","3abb4888-996f-475f-85db-81c73366e254"],"circle":1,"haveStageStart":true,"stageStart":"1","haveKpStart":true}'
+    let obj = JSON.parse(json)
+    const rez$ = document.querySelector('.rez')
+
+    const getkpresTest = (e) => {
+      rez$.innerHTML = ''
+      // debugger
+      apiGetKPRez(json, (err, data) => {
+        console.log('apiGetKPRez cbAlways err:', err, " data:", data);
+        showRez('getkpresTes (jquery)', err, data)
+      });
+    }
+    const getkpresTest_fetch = (e) => {
+      rez$.innerHTML = ''
+      // debugger
+      apiGetKPRez_fetch(json, (err, data) => {
+        console.log('apiGetKPRez cbAlways err:', err, " data:", data);
+        showRez('getkpresTest (fetch)', err, data)
+      });
+    }
+    const getkpresTest_hand = (e) => {
+      rez$.innerHTML = ''
+      // debugger
+      apiGetKPRez_hand(obj, (err, data) => {
+        console.log('apiGetKPRez cbAlways err:', err, " data:", data);
+        showRez('getkpresTest (запрос руками)', err, data)
+      });
+    }
+
+    const showRez = (name, err, data) => {
+      rez$.innerHTML = `
       <b> ${name} err: [${err}] </b>
       ----------------------------------
       <b>data:</b> 
 ${JSON.stringify(data, null, 2)}
       `
-  }
-      
-  const apiGetKPRez = function (postBody, rezultCallback) {
-    try {
-      postBody = (typeof (postBody) === 'string') ? JSON.parse(postBody) : postBody
-      $.post(_GetKPRezUrl, postBody)
-        .done(function (response) {
-          if (rezultCallback) rezultCallback(false, response)
+    }
+
+    const apiGetKPRez = function (postBody, rezultCallback) {
+      try {
+        postBody = (typeof (postBody) === 'string') ? JSON.parse(postBody) : postBody
+        $.post(_GetKPRezUrl, postBody)
+          .done(function (response) {
+            if (rezultCallback) rezultCallback(false, response)
+          })
+          .fail(function (xhr, status, error) {
+            const ex = "apiGetKPRez fail: " + status + " " + error + " " + xhr.status + " " + xhr.statusText
+            if (rezultCallback) rezultCallback(ex, false)
+          })
+      } catch (ex) {
+        if (rezultCallback) rezultCallback(ex, false)
+      }
+    }
+    const apiGetKPRez_fetch = function (postBody, rezultCallback) {
+      try {
+        postBody = (typeof (postBody) !== 'string') ? JSON.stringify(postBody) : postBody
+        fetch(_GetKPRezUrl, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: postBody,
         })
-        .fail(function (xhr, status, error) {
-          const ex = "apiGetKPRez fail: " + status + " " + error + " " + xhr.status + " " + xhr.statusText
-          if (rezultCallback) rezultCallback(ex, false)
+          .then(function (response) {
+            return response.json()
+          }).then(function (json) {
+            if (rezultCallback) rezultCallback(false, json)
+          }).catch(function (ex) {
+            if (rezultCallback) rezultCallback(ex, false)
+          });
+      } catch (ex) {
+        if (rezultCallback) rezultCallback(ex, false)
+      }
+    }
+    const apiGetKPRez_hand = function (postObj, rezultCallback) {
+      try {
+        postObj = (typeof (postObj) === 'string') ? JSON.parse(postObj) : postObj
+        const postBody = JSON_to_URLEncoded(postObj)
+        
+        // postBody = "cid=63e539b698925409b47ac28b&kpIndex=0&spIdList%5B%5D=e3be98eb-9550-49c8-b216-7a9524c52b66&spIdList%5B%5D=3abb4888-996f-475f-85db-81c73366e254&circle=1&haveStageStart=true&stageStart=1&haveKpStart=true"
+        // const formBody = [];
+        // for (var property in postObj) {
+        //   const encodedKey = encodeURIComponent(property);
+        //   const encodedValue = encodeURIComponent(postObj[property]);
+        //   formBody.push(encodedKey + "=" + encodedValue);
+        // }
+        // const postData = formBody.join("&"); // .replaceAll('%2C', ",");
+        // console.log('v1: ', postBody)
+        // console.log('v2: ', postData)
+        // console.log('v3: ', JSON_to_URLEncoded(postObj))
+        // /*        
+        // v1:  cid=63e539b698925409b47ac28b&kpIndex=0&spIdList%5B%5D=e3be98eb-9550-49c8-b216-7a9524c52b66&spIdList%5B%5D=3abb4888-996f-475f-85db-81c73366e254&circle=1&haveStageStart=true&stageStart=1&haveKpStart=true
+        // v2:  cid=63e539b698925409b47ac28b&kpIndex=0&spIdList=e3be98eb-9550-49c8-b216-7a9524c52b66%2C3abb4888-996f-475f-85db-81c73366e254&circle=1&haveStageStart=true&stageStart=1&haveKpStart=true
+        // v3:  cid=63e539b698925409b47ac28b&kpIndex=0&spIdList[0]=e3be98eb-9550-49c8-b216-7a9524c52b66&spIdList[1]=3abb4888-996f-475f-85db-81c73366e254&circle=1&haveStageStart=true&stageStart=1&haveKpStart=true
+        // */
+
+        fetch(_GetKPRezUrl, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'cross-site',
+            'Accept': 'application/json',
+          },
+          body: postBody,
         })
-    } catch (ex) {
-      if (rezultCallback) rezultCallback(ex, false)
+          .then(function (response) {
+            return response.json()
+          }).then(function (json) {
+            if (rezultCallback) rezultCallback(false, json)
+          }).catch(function (ex) {
+            if (rezultCallback) rezultCallback(ex, false)
+          });
+      } catch (ex) {
+        if (rezultCallback) rezultCallback(ex, false)
+      }
     }
-  }
-  const apiGetKPRez_fetch = function (postBody, rezultCallback) {
-    try {
-      postBody = (typeof (postBody) !== 'string') ? JSON.stringify(postBody) : postBody
-      fetch(_GetKPRezUrl, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: postBody,
-      })
-        .then(function (response) {
-          return response.json()
-        }).then(function (json) {
-          if (rezultCallback) rezultCallback(false, json)
-        }).catch(function (ex) {
-          if (rezultCallback) rezultCallback(ex, false)
-        });
-    } catch (ex) {
-      if (rezultCallback) rezultCallback(ex, false)
+
+    function JSON_to_URLEncoded(element, key, list) {
+      var list = list || [];
+      if (typeof (element) == 'object') {
+        for (var idx in element)
+          JSON_to_URLEncoded(element[idx], key ? key + '[' + idx + ']' : idx, list);
+      } else {
+        list.push(key + '=' + encodeURIComponent(element));
+      }
+      return list.join('&');
     }
-  }  
-  const apiGetKPRez_hand = function (rezultCallback) {
-    try {
-      postBody = "cid=63e539b698925409b47ac28b&kpIndex=0&spIdList%5B%5D=e3be98eb-9550-49c8-b216-7a9524c52b66&spIdList%5B%5D=3abb4888-996f-475f-85db-81c73366e254&circle=1&haveStageStart=true&stageStart=1&haveKpStart=true"
-      fetch(_GetKPRezUrl, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-          'Sec-Fetch-Mode': 'cors',
-          'Sec-Fetch-Site': 'cross-site',
-          'Accept': 'application/json',
-        },
-        body: postBody,
-      })
-        .then(function (response) {
-          return response.json()
-        }).then(function (json) {
-          if (rezultCallback) rezultCallback(false, json)
-        }).catch(function (ex) {
-          if (rezultCallback) rezultCallback(ex, false)
-        });
-    } catch (ex) {
-      if (rezultCallback) rezultCallback(ex, false)
-    }
-  }  
-
-/*
-cid=63e539b698925409b47ac28b&kpIndex=0&spIdList%5B%5D=e3be98eb-9550-49c8-b216-7a9524c52b66&spIdList%5B%5D=3abb4888-996f-475f-85db-81c73366e254&circle=1&haveStageStart=true&stageStart=1&haveKpStart=true
-
-Content-Type: application/x-www-form-urlencoded; charset=UTF-8
-'Sec-Fetch-Mode': 'cors'
-'Sec-Fetch-Site': 'cross-site'
-*/
-
   </script>
-  
+
 </body>
+
 </html>
