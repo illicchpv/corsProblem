@@ -19,7 +19,11 @@
     github pages  https://illicchpv.github.io/corsProblem/
   -->
 
-  
+  <style>
+    .rez{
+      font-size: 16px;
+    }
+  </style>
   <h1>Hello cors</h1>
   <hr>
     <div style="font-size: 34px;">
@@ -28,7 +32,8 @@
       <span style="width: 250px;display: inline-block;">так НЕ работает</span>
       <button style="font-size: 34px;" onclick="getkpresTest_fetch(event)">getkpresTest fetch</button>
       <hr>
-      <h2>результат в консоле</h2>
+      <div>результат:</div>
+      <pre class="rez"></pre>
     </div>
   
   <script>
@@ -36,22 +41,35 @@
   const _GetKPRezUrl = '//aclive.ru/SpeedControl/GetKPRez/';
   let json = '{"cid":"63e539b698925409b47ac28b","kpIndex":"0","spIdList":["e3be98eb-9550-49c8-b216-7a9524c52b66","3abb4888-996f-475f-85db-81c73366e254","2167ae1b-ebeb-4e1c-b578-1f01ca5bb645","3ce2de02-1e4f-4e1b-8919-7d28b80a4f4c","213ff29d-2d27-4b92-9dca-c5c38eb5f79b","0e903604-0524-4c75-9426-15e65ec96beb","8eb9fbc2-734a-44cd-a705-c8d04a2d8c8c","56028e0a-15ec-496d-8f01-58fc9283806d","d899f3d4-26cc-4580-a286-5922a7d45681","7f191294-1ec7-42d3-81f6-62ab0c65f4eb","1fa4ca22-7cf5-4f75-a55b-38e1d964a26e","0d17af4a-decd-453b-81d9-a109f280838a","a0e04fda-af75-4bd8-9c36-5e5228b8226a","d9840a90-cff2-407f-aa30-5529272d0f81","8e413d03-7216-4687-8d6f-27a58d4e9a92","9b1c392a-c52a-4105-a931-3580487c3b35","f80369ff-7485-456a-9c1a-5969b3e99b7c","2d904300-5997-4598-858e-f69161e523e2","2c878103-94e7-4563-904e-dbb5a7dd6e0c","4dcc39c6-6c37-4ec7-91ee-90d221d52ca8","2ebb18f8-52a0-4a03-8e89-f431cd741e1f","738d5a41-9f7c-4140-913c-c275d7373890","8472128b-ab3b-4e64-bf9f-3bd7318e1385","9446e1fb-69c3-4ac6-819f-1426c822e25e","ff247220-f743-440e-9c84-17bc72d880fa","bccf93b9-4d49-4d64-9277-ce9ca089bcbd","20a8d743-52f9-4c37-a054-bfc28b7f6cb5"],"circle":1,"haveStageStart":true,"stageStart":"1","haveKpStart":true}'
   let obj = JSON.parse(json)
+  const rez$ = document.querySelector('.rez')
   
   // https://wetrace.ru/timing_rallyraid?cid=63e539b698925409b47ac28b
   
   const getkpresTest = (e) => {
+    rez$.innerHTML = ''
     debugger
     apiGetKPRez(json, (err, data) => {
       console.log('apiGetKPRez cbAlways err:', err, " data:", data);
+      showRez('getkpresTest err: ' + err, data)
     });
   }
   const getkpresTest_fetch = (e) => {
+    rez$.innerHTML = ''
     debugger
     apiGetKPRez_fetch(json, (err, data) => {
       console.log('apiGetKPRez cbAlways err:', err, " data:", data);
+      showRez('getkpresTest_fetch err: ' + err, data)
     });
   }
   
+  const showRez = (err, data) => {
+    rez$.innerHTML = `
+      <b> ${err} </b>
+      --------------------------
+      <b>data:</b> 
+${JSON.stringify(data, null, 2)}
+      `
+  }
       
   const apiGetKPRez = function (postBody, rezultCallback) {
     try {
