@@ -25,11 +25,12 @@
       font-size: 16px;
     }
     span{
-      width: 280px;display: inline-block;
+      width: 300px;display: inline-block;
+      white-space: nowrap;
     }
     button{
-      font-size: 34px;margin-bottom: 20px;
-      width: 500px;
+      font-size: 22px;margin-bottom: 20px;
+      width: 400px;
       cursor: pointer;
     }
     button.last{
@@ -41,15 +42,28 @@
     .green{
       color: green;
     }
+    .iis{
+      position: absolute;
+      top: 0;
+      right: -100px;
+    }
   </style>
-  <h1>Hello cors</h1>
+
+  <h1>получение данных с внешнего сервера <br>
+    запросом POST</h1>
+
+  <div class="iis">
+    <p>настройки сервера</p>
+    <img src="./iis.jpg" alt="">
+  </div>
+
   <hr>
   <div style="font-size: 34px;">
-    <span class="green">так работает</span>
+    <span class="green">1. так работает</span>
     <button onclick="getkpresTest(event)">getkpresTest <i>jquery</i> </button><br>
-    <span>так НЕ работает</span>
+    <span>2. так НЕ работает</span>
     <button onclick="getkpresTest_fetch(event)">getkpresTest <i>fetch</i></button><br>
-    <span class="green">так fetch работает!</span>
+    <span class="green">3. так fetch работает!</span>
     <button class="last" onclick="getkpresTest_hand(event)">getkpresTest <i>fetch encodeURI</i> </button><br>
     <hr>
     <div>результат:</div>
